@@ -49,10 +49,11 @@ public class User implements UserDetails {
     @Size(max = 120)
     private String password;
 
-    private LocalDateTime created_on;
+    private LocalDateTime created_on = LocalDateTime.now();
 
-
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {
+            CascadeType.MERGE
+    },fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -64,6 +65,7 @@ public class User implements UserDetails {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.created_on = user.getCreated_on();
+        this.roles = user.getRoles();
     }
 
     @Override
