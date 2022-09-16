@@ -1,7 +1,10 @@
 package com.example.vaccinationcard.service;
 
+import com.example.vaccinationcard.domain.LoginDTO;
 import com.example.vaccinationcard.models.User;
 import com.example.vaccinationcard.repository.UserRepository;
+import com.example.vaccinationcard.service.converter.UserConverter;
+import net.bytebuddy.utility.nullability.AlwaysNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,10 +21,14 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private UserConverter userConverter;
+
     @Transactional
-    public Long saveDto(User user) {
+    public LoginDTO save(LoginDTO user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return this.userRepository.save(new User(user)).getId();
+        User userDB = this.userRepository.save(userConverter.convertDTOtoEntity(user));
+        return userConverter.convertEntityToDTO(userDB);
     }
 
     public Optional<User> findUserByUsername(String username){

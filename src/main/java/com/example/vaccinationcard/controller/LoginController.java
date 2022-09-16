@@ -1,10 +1,8 @@
 package com.example.vaccinationcard.controller;
 
 import com.example.vaccinationcard.configurations.TokenService;
-import com.example.vaccinationcard.domain.Login;
+import com.example.vaccinationcard.domain.LoginDTO;
 import com.example.vaccinationcard.domain.Token;
-import com.example.vaccinationcard.domain.UserInfos;
-import com.example.vaccinationcard.models.User;
 import com.example.vaccinationcard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +31,7 @@ public class LoginController {
     private UserService service;
 
     @PostMapping
-    public ResponseEntity<Token> autenticar(@RequestBody @Valid Login login) {
+    public ResponseEntity<Token> autenticar(@RequestBody @Valid LoginDTO login) {
         UsernamePasswordAuthenticationToken loginData = login.converter();
 
         try {
@@ -46,9 +44,8 @@ public class LoginController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Long> createUser(@RequestBody @Valid UserInfos user){
-        User userDTO = new User(user.getUsername(),user.getEmail(), user.getPassword());
-        return ResponseEntity.ok(service.saveDto(userDTO));
+    public ResponseEntity<LoginDTO> createUser(@RequestBody @Valid LoginDTO user){
+        return ResponseEntity.ok(service.save(user));
     }
 
 }
