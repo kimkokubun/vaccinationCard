@@ -1,6 +1,7 @@
 package com.example.vaccinationcard.configurations;
 
 import com.example.vaccinationcard.models.User;
+import com.example.vaccinationcard.repository.UserRepository;
 import com.example.vaccinationcard.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +18,7 @@ import java.util.Optional;
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     private TokenService tokenService;
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -31,7 +32,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     private void authClient(String token){
         Long id = tokenService.getId(token);
-        Optional<User> user = userService.findUserById(id);
+        Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.get(), null, user.get().getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
