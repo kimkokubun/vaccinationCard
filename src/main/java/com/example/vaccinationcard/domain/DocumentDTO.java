@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ public class DocumentDTO {
     @Size(max = 11)
     private String cpf;
 
-    @NotBlank
+    @NotNull
     private Date birthDate;
 
     @NotBlank
