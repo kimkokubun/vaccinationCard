@@ -53,7 +53,7 @@ public class User implements UserDetails {
 
     @ManyToMany(cascade = {
             CascadeType.MERGE
-    },fetch = FetchType.LAZY)
+    },fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
