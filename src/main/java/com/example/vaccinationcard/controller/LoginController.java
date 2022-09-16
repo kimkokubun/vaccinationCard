@@ -33,18 +33,13 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<Token> autenticar(@RequestBody @Valid LoginDTO login) {
         UsernamePasswordAuthenticationToken loginData = login.converter();
-
-        try {
-            Authentication authentication = authenticationManager.authenticate(loginData);
-            String token = tokenService.generateToken(authentication);
-            return ResponseEntity.ok(new Token(token, "Bearer"));
-        } catch (AuthenticationException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Authentication authentication = authenticationManager.authenticate(loginData);
+        String token = tokenService.generateToken(authentication);
+        return ResponseEntity.ok(new Token(token, "Bearer"));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<LoginDTO> createUser(@RequestBody @Valid LoginDTO user){
+    public ResponseEntity<LoginDTO> createUser(@RequestBody @Valid LoginDTO user) {
         return ResponseEntity.ok(service.save(user));
     }
 

@@ -15,10 +15,8 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginDTO {
-    @NotBlank
     private String username;
 
-    @NotBlank
     @Email
     private String email;
 
