@@ -33,6 +33,9 @@ public class User implements UserDetails {
         this.password = password;
         this.created_on = LocalDateTime.now();
     }
+    public User(Long id){
+        this.id = id;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

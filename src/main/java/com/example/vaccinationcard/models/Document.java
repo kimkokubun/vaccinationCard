@@ -37,6 +37,11 @@ public class Document {
     @NotBlank
     private String motherName;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.REFRESH)
+    @JoinColumn(name="user_id")
+    private User user;
+
+
     public Integer getCurrentAge(){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.birthDate);

@@ -5,6 +5,10 @@ import com.example.vaccinationcard.models.Document;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import javax.print.Doc;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class DocumentConverter {
 
@@ -15,5 +19,9 @@ public class DocumentConverter {
     public Document convertDTOtoEntity(DocumentDTO documentDTO){
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(documentDTO, Document.class);
+    }
+
+    public List<DocumentDTO> convertEntityToDTOList(List<Document> documentList){
+        return documentList.stream().map(this::convertEntityToDTO).collect(Collectors.toList());
     }
 }
